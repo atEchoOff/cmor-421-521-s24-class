@@ -24,13 +24,13 @@ function matmul_flat_blocked!(C, A, B, n)
             for kk in 0:BLOCK_SIZE:(n - 1)
                 for i in ii:(ii + BLOCK_SIZE - 1)
                     for j in jj:(jj + BLOCK_SIZE - 1)
-                        Cij = C[(j + 1) + i * n]
+                        @inbounds Cij = C[(j + 1) + i * n]
                         for k in kk:(kk + BLOCK_SIZE - 1)
-                            Aij = A[(k + 1) + i * n]
-                            Bij = B[(j + 1) + k * n]
+                            @inbounds Aij = A[(k + 1) + i * n]
+                            @inbounds Bij = B[(j + 1) + k * n]
                             Cij = Cij + Aij * Bij
                         end
-                        C[(j + 1) + i * n] = Cij
+                        @inbounds C[(j + 1) + i * n] = Cij
                     end
                 end
             end
